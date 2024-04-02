@@ -13,9 +13,6 @@ namespace Joomla\Plugin\Content\KsRegexWa\Extension;
 //kill direct access
 \defined('_JEXEC') || die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
 use Joomla\CMS\Event\Content\BeforeDisplayEvent;
@@ -35,12 +32,12 @@ final class KsRegexWa extends CMSPlugin implements SubscriberInterface
     public function onContentBeforeDisplay(BeforeDisplayEvent $event): void
     {
         $app = $this->getApplication();
-        $config = Factory::getConfig();
         $document = $app->getDocument();
         $view = $app->input->get('view'); // article, category, featured
         $wa = $document->getWebAssetManager();
 
         if (!$app->isClient('site')) return; // если это не фронтэнд, то прекращаем работу
+        if ($view != 'article' && $view != 'feature') return; // если это не материал и не избранное, то прекращаем работу
 
         $regexParams = $this->params->get('entry'); // Параметры плагина
 
@@ -55,7 +52,7 @@ final class KsRegexWa extends CMSPlugin implements SubscriberInterface
             $assetType = $itemParams->{'asset-type'};
             $assetName = $itemParams->{'asset-name'};
 
-            if ($view == 'article' && preg_match('/' . $regex . '/', $str)) {
+            if (preg_match('/' . $regex . '/', $str)) {
                 if ($assetType == 0) $wa->useStyle($assetName);
                 if ($assetType == 1) $wa->useScript($assetName);
                 if ($assetType == 2) $wa->usePreset($assetName);
