@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version    1.0.0
+ * @version    1.0.1
  * @package    ksregexwa (plugin)
  * @author     Sergey Kuznetsov - mediafoks@google.com
  * @copyright  Copyright (c) 2024 Sergey Kuznetsov
