@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="5.0" type="plugin" group="content" method="upgrade">
+    <name>KS Regex Wa Content Plugin</name>
+    <author>Sergey Kuznetsov</author>
+    <creationDate>Feb 2024</creationDate>
+    <copyright>Copyright (C) 2024 Sergey Kuznetsov</copyright>
+    <license>MIT</license>
+    <authorEmail>mediafoks@google.com</authorEmail>
+    <version>1.0.0</version>
+    <description>PLG_CONTENT_KS_REGEX_WA_XML_DESCRIPTION</description>
+    <namespace path="src">Joomla\Plugin\Content\KsRegexWa</namespace>
+    <files>
+        <folder plugin="ksregexwa">services</folder>
+        <folder>src</folder>
+        <folder>language</folder>
+    </files>
+    <languages folder="language">
+        <language tag="en-GB">en-GB/plg_content_ksregexwa.sys.ini</language>
+        <language tag="en-GB">en-GB/plg_content_ksregexwa.ini</language>
+        <language tag="ru-RU">ru-RU/plg_content_ksregexwa.sys.ini</language>
+        <language tag="ru-RU">ru-RU/plg_content_ksregexwa.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="entry-fields" label="PLG_CONTENT_KS_REGEX_WA_OPTIONS">
+                <field name="entry" type="subform" multiple="true">
+                    <form>
+                        <field name="regex" type="text" label="PLG_CONTENT_KS_REGEX_WA_REG" description="PLG_CONTENT_KS_REGEX_WA_REG_DESC" />
+                        <field name="asset-type" type="list" label="PLG_CONTENT_KS_REGEX_WA_ASSET_TYPE" description="PLG_CONTENT_KS_REGEX_WA_ASSET_TYPE_DESC" default="0" validate="options">
+                            <option value="0">PLG_CONTENT_KS_REGEX_WA_ASSET_TYPE_STYLE</option>
+                            <option value="1">PLG_CONTENT_KS_REGEX_WA_ASSET_TYPE_SCRIPT</option>
+                            <option value="2">PLG_CONTENT_KS_REGEX_WA_ASSET_TYPE_PRESET</option>
+                        </field>
+                        <field name="asset-name" type="text" label="PLG_CONTENT_KS_REGEX_WA_ASSET_NAME" description="PLG_CONTENT_KS_REGEX_WA_ASSET_NAME_DESC" />
+                    </form>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+    <updateservers>
+        <server type="extension" priority="1" name="KS Regex Wa Content Plugin">https://raw.githubusercontent.com/mediafoks/plg_content_ksregexwa/main/update.xml</server>
+    </updateservers>
+</extension>

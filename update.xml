@@ -1,0 +1,19 @@
+<updates>
+    <update>
+        <name>KS Regex Wa Content Plugin</name>
+        <description>Update for KS Regex Wa Content Plugin</description>
+        <element>ksregexwa</element>
+        <type>plugin</type>
+        <folder>content</folder>
+        <version>1.0.0</version>
+        <downloads>
+            <downloadurl type="full" format="zip">https://github.com/mediafoks/plg_content_ksregexwa/archive/refs/tags/ksregexwa_v1.0.0_j5.zip</downloadurl>
+        </downloads>
+        <tags>
+            <tag>stable</tag>
+        </tags>
+        <maintainer>Sergey Kuznetsov</maintainer>
+        <client>site</client>
+        <targetplatform name="joomla" version="5.*"/>
+    </update>
+</updates>
