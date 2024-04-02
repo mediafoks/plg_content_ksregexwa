@@ -17,4 +17,4 @@
 **Имя ассета:** lightgallery
 
 **Итог:** подключение вашего ассета\
-`<link href="https://cdn.jsdelivr.net/npm/lightgallery@2/css/lightgallery-bundle.min.css" rel="lazy-stylesheet" />\ <script src="https://cdn.jsdelivr.net/combine/npm/lightgallery@2/lightgallery.min.js,npm/lightgallery@2/plugins/zoom/lg-zoom.min.js,npm/lightgallery@2/plugins/fullscreen/lg-fullscreen.min.js" defer></script>`
+`<link href="https://cdn.jsdelivr.net/npm/lightgallery@2/css/lightgallery-bundle.min.css" rel="lazy-stylesheet" /> <script src="https://cdn.jsdelivr.net/combine/npm/lightgallery@2/lightgallery.min.js,npm/lightgallery@2/plugins/zoom/lg-zoom.min.js,npm/lightgallery@2/plugins/fullscreen/lg-fullscreen.min.js" defer></script>`
