@@ -1,4 +1,4 @@
-![Version](https://flat.badgen.net/github/release/mediafoks/plg_content_ksregexwa/stable?color=blue) ![JoomlaVersion](https://flat.badgen.net/badge/Joomla/5.0/orange) ![Type](https://flat.badgen.net/badge/type/plugin/yellow) ![Group](https://flat.badgen.net/badge/group/content/gray)
+[![Version](https://flat.badgen.net/github/release/mediafoks/plg_content_ksregexwa/stable?color=blue)]() [![JoomlaVersion](https://flat.badgen.net/badge/Joomla/5.0/orange)]() [![Type](https://flat.badgen.net/badge/type/plugin/yellow)]() [![Group](https://flat.badgen.net/badge/group/content/gray)]()
 
 # KS Regex Wa
 
