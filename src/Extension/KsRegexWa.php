@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version    1.0.1
+ * @version    1.0.2
  * @package    ksregexwa (plugin)
  * @author     Sergey Kuznetsov - mediafoks@google.com
  * @copyright  Copyright (c) 2024 Sergey Kuznetsov
@@ -37,25 +37,26 @@ final class KsRegexWa extends CMSPlugin implements SubscriberInterface
         $wa = $document->getWebAssetManager();
 
         if (!$app->isClient('site')) return; // если это не фронтэнд, то прекращаем работу
-        if ($view != 'article' && $view != 'feature') return; // если это не материал и не избранное, то прекращаем работу
 
         $regexParams = $this->params->get('entry'); // Параметры плагина
 
         $str = $event->getItem()->fulltext ? $event->getItem()->fulltext : $event->getItem()->introtext;
 
         // echo '<pre>';
-        // \var_dump($view);
+        // \var_dump($regexParams);
         // echo '</pre>';
 
-        foreach ($regexParams as $itemParams) {
-            $regex = $itemParams->regex;
-            $assetType = $itemParams->{'asset-type'};
-            $assetName = $itemParams->{'asset-name'};
+        if (!empty($regexParams)) {
+            foreach ($regexParams as $itemParams) {
+                $regex = $itemParams->regex;
+                $assetType = $itemParams->{'asset-type'};
+                $assetName = $itemParams->{'asset-name'};
 
-            if (preg_match('/' . $regex . '/', $str)) {
-                if ($assetType == 0) $wa->useStyle($assetName);
-                if ($assetType == 1) $wa->useScript($assetName);
-                if ($assetType == 2) $wa->usePreset($assetName);
+                if (!empty($regex) && !empty($assetType) && !empty($assetName) && !empty($str) && preg_match('/' . $regex . '/', $str)) {
+                    if ($assetType == 0) $wa->useStyle($assetName);
+                    if ($assetType == 1) $wa->useScript($assetName);
+                    if ($assetType == 2) $wa->usePreset($assetName);
+                }
             }
         }
     }
