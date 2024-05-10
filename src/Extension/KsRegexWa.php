@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version    1.0.3
+ * @version    1.1.0
  * @package    ksregexwa (plugin)
  * @author     Sergey Kuznetsov - mediafoks@google.com
  * @copyright  Copyright (c) 2024 Sergey Kuznetsov
@@ -15,7 +15,7 @@ namespace Joomla\Plugin\Content\KsRegexWa\Extension;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
-use Joomla\CMS\Event\Content\BeforeDisplayEvent;
+use Joomla\CMS\Event\Content\ContentPrepareEvent;
 
 final class KsRegexWa extends CMSPlugin implements SubscriberInterface
 {
@@ -25,37 +25,63 @@ final class KsRegexWa extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onContentBeforeDisplay' => 'onContentBeforeDisplay',
+            'onContentPrepare' => 'onContentPrepare'
         ];
     }
-
-    public function onContentBeforeDisplay(BeforeDisplayEvent $event): void
+    /**
+     *
+     * @param ContentPrepareEvent $event
+     *
+     * @return  void
+     *
+     * @since   1.1.0
+     */
+    public function onContentPrepare(ContentPrepareEvent $event): void
     {
+        /**
+         * @param   string    $context  The context of the content being passed to the plugin.
+         * @param   object   &$row      The article object.  Note $article->text is also available
+         * @param   mixed    &$params   The article params
+         * @param   integer   $page     The 'page' number
+         */
+
+        // Don't run if in the API Application
+        // Don't run this plugin when the content is being indexed
+        $context = $event->getContext();
+
+        if ($this->getApplication()->isClient('api') || $context === 'com_finder.indexer') {
+            return;
+        }
+
+        // Get content item
+        $row = $event->getItem();
+
+        // If the item does not have a text property there is nothing to do
+        if (!property_exists($row, 'text')) {
+            return;
+        }
+
         $app = $this->getApplication();
         $document = $app->getDocument();
-        $view = $app->input->get('view'); // article, category, featured
         $wa = $document->getWebAssetManager();
-
-        if (!$app->isClient('site')) return; // если это не фронтэнд, то прекращаем работу
 
         $regexParams = $this->params->get('entry'); // Параметры плагина
 
-        $str = $event->getItem()->fulltext ? $event->getItem()->fulltext : $event->getItem()->introtext;
-
-        // echo '<pre>';
-        // \var_dump($regexParams);
-        // echo '</pre>';
-
         if (!empty($regexParams)) {
             foreach ($regexParams as $itemParams) {
-                $regex = $itemParams->regex;
-                $assetType = $itemParams->{'asset-type'};
-                $assetName = $itemParams->{'asset-name'};
+                $regex = '/' . $itemParams->regex . '/'; // Регулярное выражение
+                $assetType = $itemParams->{'asset-type'}; // Тип аасета
+                $assetName = $itemParams->{'asset-name'}; // Имя ассета
 
-                if (!empty($regex) && !empty($assetType) && !empty($assetName) && !empty($str) && preg_match('/' . $regex . '/', $str)) {
-                    if ($assetType == 0) $wa->useStyle($assetName);
-                    if ($assetType == 1) $wa->useScript($assetName);
-                    if ($assetType == 2) $wa->usePreset($assetName);
+                if (
+                    !empty($regex)
+                    && !empty($assetType)
+                    && !empty($assetName)
+                    && preg_match($regex, $row->text)
+                ) {
+                    if ($assetType == 0 && $wa->assetExists('style', $assetName)) $wa->useStyle($assetName);
+                    if ($assetType == 1 && $wa->assetExists('script', $assetName)) $wa->useScript($assetName);
+                    if ($assetType == 2 && $wa->assetExists('preset', $assetName)) $wa->usePreset($assetName);
                 }
             }
         }
