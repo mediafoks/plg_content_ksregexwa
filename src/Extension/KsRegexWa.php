@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version    1.1.0
+ * @version    1.1.1
  * @package    ksregexwa (plugin)
  * @author     Sergey Kuznetsov - mediafoks@google.com
  * @copyright  Copyright (c) 2024 Sergey Kuznetsov
@@ -34,7 +34,7 @@ final class KsRegexWa extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   1.1.0
+     * @since   1.1.1
      */
     public function onContentPrepare(ContentPrepareEvent $event): void
     {
@@ -69,19 +69,19 @@ final class KsRegexWa extends CMSPlugin implements SubscriberInterface
 
         if (!empty($regexParams)) {
             foreach ($regexParams as $itemParams) {
-                $regex = '/' . $itemParams->regex . '/'; // Регулярное выражение
-                $assetType = $itemParams->{'asset-type'}; // Тип аасета
+                $regex = $itemParams->regex; // Регулярное выражение
+                $assetType = (int)$itemParams->{'asset-type'}; // Тип аасета
                 $assetName = $itemParams->{'asset-name'}; // Имя ассета
 
                 if (
                     !empty($regex)
                     && !empty($assetType)
                     && !empty($assetName)
-                    && preg_match($regex, $row->text)
+                    && preg_match('/' . $regex . '/', $row->text)
                 ) {
-                    if ($assetType == 0 && $wa->assetExists('style', $assetName)) $wa->useStyle($assetName);
-                    if ($assetType == 1 && $wa->assetExists('script', $assetName)) $wa->useScript($assetName);
-                    if ($assetType == 2 && $wa->assetExists('preset', $assetName)) $wa->usePreset($assetName);
+                    if ($assetType === 0 && $wa->assetExists('style', $assetName)) $wa->useStyle($assetName);
+                    if ($assetType === 1 && $wa->assetExists('script', $assetName)) $wa->useScript($assetName);
+                    if ($assetType === 2 && $wa->assetExists('preset', $assetName)) $wa->usePreset($assetName);
                 }
             }
         }
