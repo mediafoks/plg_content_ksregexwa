@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version    1.1.1
+ * @version    1.2.0
  * @package    ksregexwa (plugin)
  * @author     Sergey Kuznetsov - mediafoks@google.com
  * @copyright  Copyright (c) 2024 Sergey Kuznetsov
@@ -34,7 +34,7 @@ final class KsRegexWa extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   1.1.1
+     * @since   1.2.0
      */
     public function onContentPrepare(ContentPrepareEvent $event): void
     {
@@ -65,19 +65,19 @@ final class KsRegexWa extends CMSPlugin implements SubscriberInterface
         $document = $app->getDocument();
         $wa = $document->getWebAssetManager();
 
-        $regexParams = $this->params->get('entry'); // Параметры плагина
+        $pluginParams = $this->params->get('entry'); // Параметры плагина
 
-        if (!empty($regexParams)) {
-            foreach ($regexParams as $itemParams) {
-                $regex = $itemParams->regex; // Регулярное выражение
+        if (!empty($pluginParams)) {
+            foreach ($pluginParams as $itemParams) {
+                $substring = (string)$itemParams->regex; // Регулярное выражение
                 $assetType = (int)$itemParams->{'asset-type'}; // Тип аасета
                 $assetName = $itemParams->{'asset-name'}; // Имя ассета
 
                 if (
-                    !empty($regex)
-                    && !empty($assetType)
-                    && !empty($assetName)
-                    && preg_match('/' . $regex . '/', $row->text)
+                    !empty($substring) // Если подстрока не пустая
+                    && isset($assetType) // Если выбран тип ассета
+                    && !empty($assetName) // Если имя ассета не пустое
+                    && str_contains($row->text, $substring) // Если подстрока содержится в теле материала
                 ) {
                     if ($assetType === 0 && $wa->assetExists('style', $assetName)) $wa->useStyle($assetName);
                     if ($assetType === 1 && $wa->assetExists('script', $assetName)) $wa->useScript($assetName);
