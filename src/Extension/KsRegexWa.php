@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version    1.2.0
+ * @version    1.2.1
  * @package    ksregexwa (plugin)
  * @author     Sergey Kuznetsov - mediafoks@google.com
  * @copyright  Copyright (c) 2024 Sergey Kuznetsov
@@ -34,7 +34,7 @@ final class KsRegexWa extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   1.2.0
+     * @since   1.2.1
      */
     public function onContentPrepare(ContentPrepareEvent $event): void
     {
