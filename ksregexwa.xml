@@ -6,7 +6,7 @@
     <copyright>Copyright (C) 2024 Sergey Kuznetsov</copyright>
     <license>MIT</license>
     <authorEmail>mediafoks@google.com</authorEmail>
-    <version>1.2.1</version>
+    <version>1.3.0</version>
     <description>PLG_CONTENT_KS_REGEX_WA_XML_DESCRIPTION</description>
     <namespace path="src">Joomla\Plugin\Content\KsRegexWa</namespace>
     <files>
@@ -22,16 +22,16 @@
     </languages>
     <config>
         <fields name="params">
-            <fieldset name="entry-fields" label="PLG_CONTENT_KS_REGEX_WA_OPTIONS">
+            <fieldset name="entry_fields" label="PLG_CONTENT_KS_REGEX_WA_OPTIONS">
                 <field name="entry" type="subform" multiple="true">
                     <form>
-                        <field name="regex" type="text" label="PLG_CONTENT_KS_REGEX_WA_REG" description="PLG_CONTENT_KS_REGEX_WA_REG_DESC" />
-                        <field name="asset-type" type="list" label="PLG_CONTENT_KS_REGEX_WA_ASSET_TYPE" description="PLG_CONTENT_KS_REGEX_WA_ASSET_TYPE_DESC" default="0" validate="options">
+                        <field name="substring" type="text" label="PLG_CONTENT_KS_REGEX_WA_REG" description="PLG_CONTENT_KS_REGEX_WA_REG_DESC" filter="string"/>
+                        <field name="asset_type" type="list" label="PLG_CONTENT_KS_REGEX_WA_ASSET_TYPE" description="PLG_CONTENT_KS_REGEX_WA_ASSET_TYPE_DESC" default="0" validate="options">
                             <option value="0">PLG_CONTENT_KS_REGEX_WA_ASSET_TYPE_STYLE</option>
                             <option value="1">PLG_CONTENT_KS_REGEX_WA_ASSET_TYPE_SCRIPT</option>
                             <option value="2">PLG_CONTENT_KS_REGEX_WA_ASSET_TYPE_PRESET</option>
                         </field>
-                        <field name="asset-name" type="text" label="PLG_CONTENT_KS_REGEX_WA_ASSET_NAME" description="PLG_CONTENT_KS_REGEX_WA_ASSET_NAME_DESC" />
+                        <field name="asset_name" type="text" label="PLG_CONTENT_KS_REGEX_WA_ASSET_NAME" description="PLG_CONTENT_KS_REGEX_WA_ASSET_NAME_DESC" filter="string"/>
                     </form>
                 </field>
             </fieldset>

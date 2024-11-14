@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version    1.2.1
+ * @version    1.3.0
  * @package    ksregexwa (plugin)
  * @author     Sergey Kuznetsov - mediafoks@google.com
  * @copyright  Copyright (c) 2024 Sergey Kuznetsov
@@ -16,6 +16,7 @@ namespace Joomla\Plugin\Content\KsRegexWa\Extension;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
 use Joomla\CMS\Event\Content\ContentPrepareEvent;
+use Joomla\Registry\Registry;
 
 final class KsRegexWa extends CMSPlugin implements SubscriberInterface
 {
@@ -34,22 +35,23 @@ final class KsRegexWa extends CMSPlugin implements SubscriberInterface
      *
      * @return  void
      *
-     * @since   1.2.1
+     * @since   1.3.0
      */
     public function onContentPrepare(ContentPrepareEvent $event): void
     {
         /**
          * @param   string    $context  The context of the content being passed to the plugin.
          * @param   object   &$row      The article object.  Note $article->text is also available
-         * @param   mixed    &$params   The article params
+         * @param   mixed    &$entryParams   The article params
          * @param   integer   $page     The 'page' number
          */
 
         // Don't run if in the API Application
         // Don't run this plugin when the content is being indexed
         $context = $event->getContext();
+        $app = $this->getApplication();
 
-        if ($this->getApplication()->isClient('api') || $context === 'com_finder.indexer') {
+        if (!$app->isClient('site') || $context === 'com_finder.indexer') {
             return;
         }
 
@@ -61,17 +63,22 @@ final class KsRegexWa extends CMSPlugin implements SubscriberInterface
             return;
         }
 
-        $app = $this->getApplication();
         $document = $app->getDocument();
         $wa = $document->getWebAssetManager();
 
-        $pluginParams = $this->params->get('entry'); // Параметры плагина
+        $entryParams = $this->params->get('entry'); // Параметры entry
 
-        if (!empty($pluginParams)) {
-            foreach ($pluginParams as $itemParams) {
-                $substring = (string)$itemParams->regex; // Регулярное выражение
-                $assetType = (int)$itemParams->{'asset-type'}; // Тип аасета
-                $assetName = $itemParams->{'asset-name'}; // Имя ассета
+        // echo '<pre>';
+        // \var_dump($substring);
+        // echo '<pre>';
+
+        if ($entryParams) {
+            foreach ($entryParams as $params) {
+                $params = new Registry($params);
+
+                $substring = (string) $params->get('substring'); // Подстрока
+                $assetType = (int) $params->get('asset_type'); // Тип аасета
+                $assetName = (string) $params->get('asset_name'); // Имя ассета
 
                 if (
                     !empty($substring) // Если подстрока не пустая
